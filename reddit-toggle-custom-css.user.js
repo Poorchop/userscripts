@@ -49,6 +49,9 @@ var subredditCSSManager = {
 
 if (document.addEventListener) {
     document.addEventListener("DOMContentLoaded", addCheckbox, false);
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("toggle-subreddit-css").addEventListener("click", checkboxHandler);
+    });
 }
 
 function addCheckbox() {
@@ -70,10 +73,6 @@ function addCheckbox() {
 
     subredditCSSManager.initialize();
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("toggle-subreddit-css").addEventListener("click", checkboxHandler);
-});
 
 function checkboxHandler() {
     var subredditName = subredditCSSManager.getSubredditName();
