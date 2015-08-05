@@ -3,13 +3,13 @@
 // @namespace   https://github.com/Poorchop/userscripts
 // @description Adds a small checkbox for toggling custom subreddit CSS
 // @include     /https?:\/\/[a-z]+\.reddit\.com\//
-// @version     0.1.1
+// @version     1.0
 // @grant       none
 // ==/UserScript==
 
-/* jshint browser: true */
+/* jshint browser: true, esnext: true */
 
-var subredditCSSManager = {
+let subredditCSSManager = {
   stylesheetList: [],
 
   customCSSNode: document.querySelector("[title='applied_subreddit_stylesheet']"),
@@ -20,7 +20,7 @@ var subredditCSSManager = {
   },
 
   getSubredditName: function () {
-    var subredditNameNodes = document.getElementsByClassName("redditname");
+    let subredditNameNodes = document.getElementsByClassName("redditname");
 
     return subredditNameNodes[1].firstElementChild.textContent;
   },
@@ -28,13 +28,12 @@ var subredditCSSManager = {
   initialize: function () {
     // Grab the stylesheet link before removing the href value
     if (this.customCSSNode.hasAttribute("href")) {
-      var i;
-      var subredditName = this.getSubredditName();
-      var stylesheet = document.querySelector("[title='applied_subreddit_stylesheet']").getAttribute("href");
-      var setMatchingStylesheet = new this.SubredditStylesheet(subredditName, stylesheet);
+      let subredditName = this.getSubredditName();
+      let stylesheet = document.querySelector("[title='applied_subreddit_stylesheet']").getAttribute("href");
+      let setMatchingStylesheet = new this.SubredditStylesheet(subredditName, stylesheet);
 
       if (this.stylesheetList.length) {
-        for (i = 0; i < this.stylesheetList.length; i++) {
+        for (let i = 0, j = this.stylesheetList.length; i < j; i++) {
           if (JSON.stringify(setMatchingStylesheet) !== JSON.stringify(this.stylesheetList[i])) {
             this.stylesheetList.push(setMatchingStylesheet);
           }
@@ -49,12 +48,11 @@ var subredditCSSManager = {
 };
 
 function checkboxHandler() {
-  var subredditName = subredditCSSManager.getSubredditName();
-
   if (document.getElementById("toggle-subreddit-css").value === "off") {
-    var i;
+    let subredditName = subredditCSSManager.getSubredditName();
     document.getElementById("toggle-subreddit-css").value = "on";
-    for (i = 0; i < subredditCSSManager.stylesheetList.length; i++) {
+
+    for (let i = 0, j = subredditCSSManager.stylesheetList.length; i < j; i++) {
       if (subredditName === subredditCSSManager.stylesheetList[i].subreddit) {
         subredditCSSManager.customCSSNode.setAttribute("href", subredditCSSManager.stylesheetList[i].stylesheet);
         subredditCSSManager.stylesheetList.splice(i, 1);
@@ -68,23 +66,28 @@ function checkboxHandler() {
 }
 
 function addCheckbox() {
-  var newCheckbox = document.createElement("input");
-  newCheckbox.setAttribute("type", "checkbox");
-  newCheckbox.setAttribute("id", "toggle-subreddit-css");
-  var newLabel = document.createElement("label");
-  newLabel.setAttribute("for", "toggle-subreddit-css");
-  var newContent = document.createTextNode(" Toggle custom subreddit CSS");
-  newLabel.appendChild(newContent);
+  if (!document.getElementById("toggle-subreddit-css")) {
+    let newCheckbox = document.createElement("input");
+    newCheckbox.setAttribute("type", "checkbox");
+    newCheckbox.setAttribute("id", "toggle-subreddit-css");
 
-  var target = document.getElementsByClassName("redditname")[1].parentNode;
-  target.insertBefore(newCheckbox, target.childNodes[1]);
-  target.insertBefore(newLabel, target.childNodes[2]);
-  target.insertBefore(document.createElement("br"), target.childNodes[3]);
+    let newLabel = document.createElement("label");
+    newLabel.setAttribute("for", "toggle-subreddit-css");
 
-  document.getElementById("toggle-subreddit-css").checked = false;
-  document.getElementById("toggle-subreddit-css").value = "off";
+    let newContent = document.createTextNode(" Toggle custom subreddit CSS");
+    newLabel.appendChild(newContent);
 
-  subredditCSSManager.initialize();
+    let target = document.getElementsByClassName("redditname")[1].parentNode;
+    target.insertBefore(newCheckbox, target.childNodes[1]);
+    target.insertBefore(newLabel, target.childNodes[2]);
+    target.insertBefore(document.createElement("br"), target.childNodes[3]);
+    target.childNodes[3].style.marginBottom="5px";
+
+    document.getElementById("toggle-subreddit-css").checked = false;
+    document.getElementById("toggle-subreddit-css").value = "off";
+
+    subredditCSSManager.initialize();
+  }
 }
 
 if (document.addEventListener) {
