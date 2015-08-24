@@ -2,7 +2,7 @@
 
 ***
 
-#### [reddit-remove-read-next.user.js](reddit-remove-read-next-.user.js)
+#### [reddit-remove-read-next.user.js](reddit-remove-read-next.user.js)
 Removes the annoying read next popup in the lower right corner that shows when you scroll down a post's comments
 
 #### [reddit-toggle-custom-css.user.js](reddit-toggle-custom-css.user.js)
