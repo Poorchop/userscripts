@@ -39,25 +39,19 @@ function removeGarbage() {
   mastheadLogoContainer.style.width = "unset";
 
   let mastheadSignin = document.getElementById("yt-masthead-signin");
-  if (mastheadSignin) {
-    mastheadSignin.style.marginTop = "unset";
-    mastheadSignin.style.position = "absolute";
-    mastheadSignin.style.right = "10px";
-    mastheadSignin.style.top = "10px";
-  } else {
+  if (!mastheadSignin) {
     // case for when user is logged in
-    // TODO: nicely display subscriptions when user is logged in - delete the node for now
-    document.getElementById("masthead-positioner").removeChild(document.getElementById("masthead-appbar-container"));
-
     // reuse mastheadSignin assignment to more easily find YouTube Center button
     mastheadSignin = document.getElementById("yt-masthead-user");
-    mastheadSignin.style.float = "none";
-    mastheadSignin.style.marginLeft = "unset";
-    mastheadSignin.style.marginTop = "unset";
-    mastheadSignin.style.position = "absolute";
-    mastheadSignin.style.right = "10px";
-    mastheadSignin.style.top = "10px";
   }
+  // TODO: nicely display subscriptions when user is logged in - delete the node for now
+  document.getElementById("masthead-positioner").removeChild(document.getElementById("masthead-appbar-container"));
+  mastheadSignin.style.float = "none";
+  mastheadSignin.style.marginLeft = "unset";
+  mastheadSignin.style.marginTop = "unset";
+  mastheadSignin.style.position = "absolute";
+  mastheadSignin.style.right = "10px";
+  mastheadSignin.style.top = "10px";
 
   document.getElementById("masthead-search").style.margin = "auto";
 
