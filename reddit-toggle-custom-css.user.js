@@ -4,7 +4,7 @@
 // @description Adds a small checkbox for toggling custom subreddit CSS
 // @include     /https?:\/\/[a-z]+\.reddit\.com\//
 // @version     1.1
-// @grant       none
+// @grant       GM_addStyle
 // ==/UserScript==
 
 /* jshint browser: true, esnext: true */
@@ -40,6 +40,7 @@ let subredditCSSManager = {
         this.stylesheetList.push(setMatchingStylesheet);
       }
 
+      GM_addStyle('.side .md th, .side .md td { padding: 0; }');
       this.customCSSNode.removeAttribute("href");
     }
   }
