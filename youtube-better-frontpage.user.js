@@ -39,12 +39,33 @@ function removeGarbage() {
   mastheadLogoContainer.style.width = "unset";
 
   let mastheadSignin = document.getElementById("yt-masthead-signin");
-  mastheadSignin.style.marginTop = "unset";
-  mastheadSignin.style.position = "absolute";
-  mastheadSignin.style.right = "0px";
-  mastheadSignin.style.top = "10px";
+  if (mastheadSignin) {
+    mastheadSignin.style.marginTop = "unset";
+    mastheadSignin.style.position = "absolute";
+    mastheadSignin.style.right = "10px";
+    mastheadSignin.style.top = "10px";
+  } else {
+    // case for when user is logged in
+    // TODO: nicely display subscriptions when user is logged in - delete the node for now
+    document.getElementById("masthead-positioner").removeChild(document.getElementById("masthead-appbar-container"));
+
+    // reuse mastheadSignin assignment to more easily find YouTube Center button
+    mastheadSignin = document.getElementById("yt-masthead-user");
+    mastheadSignin.style.float = "none";
+    mastheadSignin.style.marginLeft = "unset";
+    mastheadSignin.style.marginTop = "unset";
+    mastheadSignin.style.position = "absolute";
+    mastheadSignin.style.right = "10px";
+    mastheadSignin.style.top = "10px";
+  }
 
   document.getElementById("masthead-search").style.margin = "auto";
+
+  // set style for YouTube Center button
+  let ytCenterBtn = mastheadSignin.children[mastheadSignin.childElementCount - 1];
+  if (ytCenterBtn.getAttribute("title") === "Toggle YouTube Center Settings panel") {
+    ytCenterBtn.style.margin = "0px 0px 0px 10px";
+  }
 }
 
 if (document.addEventListener) {
