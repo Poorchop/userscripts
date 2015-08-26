@@ -3,7 +3,7 @@
 // @namespace   https://github.com/Poorchop/userscripts
 // @description Hides the nasty bits on the default Youtube front page, leaving only the important bits
 // @include     /https?:\/\/www\.youtube\.com\/$/
-// @version     0.1
+// @version     0.2
 // @grant       none
 // ==/UserScript==
 
@@ -62,6 +62,4 @@ function removeGarbage() {
   }
 }
 
-if (document.addEventListener) {
-  document.addEventListener("DOMContentLoaded", removeGarbage);
-}
+removeGarbage();

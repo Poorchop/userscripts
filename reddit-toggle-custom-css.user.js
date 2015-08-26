@@ -3,7 +3,7 @@
 // @namespace   https://github.com/Poorchop/userscripts
 // @description Adds a small checkbox for toggling custom subreddit CSS
 // @include     /https?:\/\/[a-z]+\.reddit\.com\//
-// @version     1.0
+// @version     1.1
 // @grant       none
 // ==/UserScript==
 
@@ -11,7 +11,6 @@
 
 let subredditCSSManager = {
   stylesheetList: [],
-
   customCSSNode: document.querySelector("[title='applied_subreddit_stylesheet']"),
 
   SubredditStylesheet: function (subreddit, stylesheet) {
@@ -21,7 +20,6 @@ let subredditCSSManager = {
 
   getSubredditName: function () {
     let subredditNameNodes = document.getElementsByClassName("redditname");
-
     return subredditNameNodes[1].firstElementChild.textContent;
   },
 
@@ -90,9 +88,5 @@ function addCheckbox() {
   }
 }
 
-if (document.addEventListener) {
-  document.addEventListener("DOMContentLoaded", addCheckbox, false);
-  document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("toggle-subreddit-css").addEventListener("click", checkboxHandler);
-  });
-}
+addCheckbox();
+document.getElementById("toggle-subreddit-css").addEventListener("click", checkboxHandler);
