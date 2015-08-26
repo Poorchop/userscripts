@@ -15,4 +15,6 @@ those who don't have a Reddit account and therefore don't have access to the opt
 #### [youtube-better-frontpage.user.js](youtube-better-frontpage.user.js)
 No more garbage on the front page
 
+**Known Issue:** currently only works with YouTube Center installed
+
 ![Preview](https://imgrush.com/HWHTGUHEVQCK.png)
