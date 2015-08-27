@@ -9,6 +9,45 @@
 
 /* jshint browser: true, esnext: true */
 
+let observer;
+
+init();
+
+function init() {
+  /* don't do anything inside iframes */
+  if (window.self !== window.top) {
+    return;
+  }
+
+  observer = new MutationObserver(body_change);
+  observer.observe(document.body, { childList: true });
+
+  apply_styles();
+}
+
+function body_change(mutations) {
+  for (let mutation of mutations) {
+    for (let element of mutation.addedNodes) {
+      if (element.id == 'progress') {
+        apply_styles();
+      }
+    }
+  }
+}
+
+function apply_styles() {
+  if (window.location.pathname == '/') {
+    addCustomCSS();
+  }
+  else {
+    let styles = document.getElementById('better-css');
+
+    if (styles) {
+      styles.parentElement.removeChild(styles);
+    }
+  }
+}
+
 function addCustomCSS() {
   let betterCSS = "#body-container { background: #fff !important; }" +
       "#yt-masthead-container { background: #fff !important; border-bottom: none !important; }" +
@@ -19,7 +58,8 @@ function addCustomCSS() {
       "#masthead-search { margin: auto !important; }" +
       "#appbar-guide-button-container { display: none !important; }" +
       "#page-container { display: none !important; }" +
-      "#footer-container {display: none !important; }";
+      "#footer-container {display: none !important; }" +
+      "#masthead-appbar { display: none; }";
 
   let betterStyle = document.createElement("style");
   betterStyle.type = "text/css";
@@ -28,4 +68,3 @@ function addCustomCSS() {
   document.head.appendChild(betterStyle);
 }
 
-addCustomCSS();
