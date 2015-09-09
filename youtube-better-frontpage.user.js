@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name        Youtube Better Front Page
+// @name        YouTube Better Front Page
 // @namespace   https://github.com/Poorchop/userscripts
-// @description Hides the nasty bits on the default Youtube front page, leaving only the important bits
+// @description Hides the nasty bits on the default YouTube front page, leaving only the important bits
 // @include     http*://www.youtube.com/*
 // @version     1.1
 // @grant       none
@@ -23,7 +23,7 @@ function addCustomCSS() {
       "#page-container { display: none !important; }" +
       "#footer-container {display: none !important; }" +
       "#masthead-appbar { display: none; }" +
-      "#masthead-user-button { margin: 0px 0px 0px 10px}"; // YouTube Center button
+      "#masthead-user-button { margin: 0px 0px 0px 10px }"; // YouTube Center button
 
   let betterStyle = document.createElement("style");
   betterStyle.type = "text/css";
@@ -33,7 +33,7 @@ function addCustomCSS() {
 }
 
 function applyStyles() {
-  if (window.location.pathname == "/") {
+  if (window.location.pathname === "/") {
     addCustomCSS();
   } else {
     let styles = document.getElementById("better-css");
