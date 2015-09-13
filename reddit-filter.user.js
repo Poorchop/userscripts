@@ -3,7 +3,7 @@
 // @namespace   https://github.com/Poorchop/userscripts
 // @description Allows for filtering/hiding of posts
 // @include     https://www.reddit.com/*
-// @version     0.1
+// @version     0.2
 // @grant       GM_addStyle
 // @grant       GM_listValues
 // @grant       GM_setValue
@@ -164,7 +164,7 @@ GM_addStyle(
     margin-right: 400px; \
     opacity: 0; } \
   #filter-modal #save-confirm:hover { \
-    cursor: initial; } \
+    cursor: default; } \
   #filter-modal .modal-body > p { \
     margin-bottom: 10px; } \
   #filter-modal th { \
@@ -173,11 +173,72 @@ GM_addStyle(
     color: #8B0000; \
     width: 100%; } \
   #filter-modal .delete-btn:hover { \
-    color: #8B0000; }"
+    color: #8B0000; } \
+  #hide-toggle-btn { \
+    margin: 10px 5px 0px 0px; }"
 );
 
 let megaCollection;
 let deletedKeys = [];
+
+function buildNewCollection(expression, filterType, newCollection) {
+  // TODO: remove duplicate entries due to different capitalization
+  if (!newCollection.hasOwnProperty(expression)) {
+    newCollection[expression] = [filterType];
+  } else {
+    newCollection[expression].push(filterType);
+  }
+}
+
+function saveFilters() {
+  // TODO: only check new additions since initial setup
+  let cursorCSS = "#filter-modal, #filter-modal *:hover { cursor: progress; }";
+  let cursorStyle = document.createElement("style");
+  cursorStyle.type = "text/css";
+  cursorStyle.id = "cursor-css";
+  cursorStyle.appendChild(document.createTextNode(cursorCSS));
+  document.head.appendChild(cursorStyle);
+
+  let tbody = document.getElementById("filter-tbody");
+  if (tbody.childElementCount > 0) {
+    let newCollection = {};
+
+    for (let item of deletedKeys) {
+      GM_deleteValue(item);
+    }
+    deletedKeys = [];
+
+    for (let node of tbody.children) {
+      let expression = node.cells[0].childNodes[0].value;
+      if (expression) {
+        let optionCell = node.cells[1].childNodes[0];
+        let filterType = optionCell.options[optionCell.selectedIndex].value;
+        buildNewCollection(expression, filterType, newCollection);
+      }
+    }
+
+    for (let key in newCollection) {
+      let value = newCollection[key].join(" ");
+      GM_setValue(key, value);
+    }
+  } else {
+    for (let item of megaCollection) {
+      GM_deleteValue(item);
+    }
+    megaCollection = [];
+    deletedKeys = [];
+  }
+
+  cursorStyle.parentElement.removeChild(cursorStyle);
+
+  $("#save-confirm").animate({
+    opacity: 1
+  }, "fast", function () {
+    $(this).animate({
+      opacity: 0
+    }, 3000);
+  });
+}
 
 function deleteFilter(btn) {
   let goodbye = btn[0].parentElement.parentElement;
@@ -371,11 +432,44 @@ function init() {
   separator.className = "separator";
   separator.appendChild(document.createTextNode("-"));
   modalBtn.appendChild(separator);
+
   let modalToggle = document.createElement("a");
   modalToggle.href = "#filter-modal";
   modalToggle.setAttribute("data-toggle", "modal");
   modalToggle.appendChild(document.createTextNode("Filter"));
   modalBtn.appendChild(modalToggle);
+
+  let hiddenCSS = document.getElementById("hidden-css");
+  let hideToggleBtn = document.createElement("button");
+  hideToggleBtn.id = "hide-toggle-btn";
+  hideToggleBtn.innerHTML = "Show hidden posts";
+  document.getElementById("siteTable").appendChild(hideToggleBtn);
+
+  $(hideToggleBtn).click(function () {
+    if (document.getElementById("hidden-css")) {
+      hiddenCSS.parentElement.removeChild(hiddenCSS);
+      $(this).text("Hide filtered posts");
+    } else {
+      document.head.appendChild(hiddenCSS);
+      $(this).text("Show hidden posts");
+    }
+  });
+
+  let highlightedCSS = document.getElementById("highlighted-css");
+  let highlightToggleBtn = document.createElement("button");
+  highlightToggleBtn.id = "highlight-toggle-btn";
+  highlightToggleBtn.innerHTML = "Remove highlights";
+  document.getElementById("siteTable").appendChild(highlightToggleBtn);
+
+  $(highlightToggleBtn).click(function () {
+    if (document.getElementById("highlighted-css")) {
+      highlightedCSS.parentElement.removeChild(highlightedCSS);
+      $(this).text("Apply highlights");
+    } else {
+      document.head.appendChild(highlightedCSS);
+      $(this).text("Remove highlights");
+    }
+  });
 
   // create the modal
   let filterModal = document.createElement("div");
@@ -428,61 +522,14 @@ function init() {
   $(".flat-list.sr-bar.hover").append(modalBtn);
   $("body").prepend(filterModal);
   displayRules();
-}
 
-function buildNewCollection(expression, filterType, newCollection) {
-  if (!newCollection.hasOwnProperty(expression)) {
-    newCollection[expression] = [filterType];
-  } else {
-    newCollection[expression].push(filterType);
-  }
-}
+  $("#add-filter").click(function () {
+    addRow("", "subreddit");
+  });
 
-function saveFilters() {
-  // TODO: only check new additions since initial setup
-  let tbody = document.getElementById("filter-tbody");
-  if (tbody.childElementCount > 0) {
-    let newCollection = {};
-
-    for (let item of deletedKeys) {
-      GM_deleteValue(item);
-    }
-    deletedKeys = [];
-
-    for (let node of tbody.children) {
-      let expression = node.cells[0].childNodes[0].value;
-      if (expression) {
-        let optionCell = node.cells[1].childNodes[0];
-        let filterType = optionCell.options[optionCell.selectedIndex].value;
-        buildNewCollection(expression, filterType, newCollection);
-      }
-    }
-
-    for (let key in newCollection) {
-      let value = newCollection[key].join(" ");
-      GM_setValue(key, value);
-    }
-  } else {
-    for (let item of megaCollection) {
-      GM_deleteValue(item);
-    }
-    megaCollection = [];
-    deletedKeys = [];
-  }
-
-  $("#save-confirm").animate({
-    opacity: 1
-  }, "fast", function () {
-    $(this).animate({
-      opacity: 0
-    }, 3000);
+  $("#filter-save-btn").click(function () {
+    saveFilters();
   });
 }
 
 init();
-$("#add-filter").click(function () {
-  addRow("", "subreddit");
-});
-$("#filter-save-btn").click(function () {
-  saveFilters();
-});
