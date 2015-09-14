@@ -3,7 +3,7 @@
 // @namespace   https://github.com/Poorchop/userscripts
 // @description Allows for filtering/hiding of posts
 // @include     https://www.reddit.com/*
-// @version     0.2.2
+// @version     0.3
 // @grant       GM_addStyle
 // @grant       GM_listValues
 // @grant       GM_setValue
@@ -178,6 +178,7 @@ GM_addStyle(
 
 let megaCollection;
 let deletedKeys = [];
+let numFilters;
 
 function buildNewCollection(expression, filterType, newCollection) {
   // TODO: remove duplicate entries due to different capitalization
@@ -317,6 +318,7 @@ function displayRules() {
 }
 
 function applyFilteredCSS(classList) {
+  numFilters = classList.length;
   let selectors = classList.join(", ");
   let hiddenCSS = selectors + " { display: none; }";
   let highlightedCSS = selectors + " { transition: background-color 2.0s ease; background-color: yellow; }";
@@ -434,7 +436,7 @@ function init() {
     let hiddenCSS = document.getElementById("hidden-css");
     let hideToggleBtn = document.createElement("button");
     hideToggleBtn.id = "hide-toggle-btn";
-    hideToggleBtn.innerHTML = "Show hidden posts";
+    hideToggleBtn.innerHTML = "Show hidden posts (" + numFilters.toString() + ")";
     document.getElementById("siteTable").appendChild(hideToggleBtn);
 
     $(hideToggleBtn).click(function () {
@@ -443,7 +445,7 @@ function init() {
         $(this).text("Hide filtered posts");
       } else {
         document.head.appendChild(hiddenCSS);
-        $(this).text("Show hidden posts");
+        $(this).text("Show hidden posts (" + numFilters.toString() + ")");
       }
     });
 
