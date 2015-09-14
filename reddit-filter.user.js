@@ -3,7 +3,7 @@
 // @namespace   https://github.com/Poorchop/userscripts
 // @description Allows for filtering/hiding of posts
 // @include     https://www.reddit.com/*
-// @version     0.2
+// @version     0.2.1
 // @grant       GM_addStyle
 // @grant       GM_listValues
 // @grant       GM_setValue
@@ -321,7 +321,7 @@ function displayRules() {
 function applyFilteredCSS(classList) {
   let selectors = classList.join(", ");
   let hiddenCSS = selectors + " { display: none; }";
-  let highlightedCSS = selectors + " { background-color: yellow; }";
+  let highlightedCSS = selectors + " { transition: background-color 2.0s ease; background-color: yellow; }";
 
   let hiddenStyle = document.createElement("style");
   hiddenStyle.type = "text/css";
@@ -354,7 +354,14 @@ function findFilteredPosts() {
       switch (value) {
         case "subreddit":
           for (let i = 0, j = visibleLinks.length; i < j; i++) {
-            let target = visibleLinks[i].querySelector(".subreddit").innerHTML.substring(3).toLowerCase();
+            let target;
+            try {
+              target = visibleLinks[i].querySelector(".subreddit").innerHTML.substring(3).toLowerCase();
+            }
+            catch (e) {
+              // user is currently on a subreddit page
+              //console.log(e);
+            }
             if (target && target === item.toLowerCase()) {
               let className = visibleLinks[i].getAttribute("data-fullname");
               className = ".id-" + className;
@@ -519,7 +526,7 @@ function init() {
       </div> \
     </div>";
 
-  $(".flat-list.sr-bar.hover").append(modalBtn);
+  document.getElementsByClassName("flat-list sr-bar hover")[0].appendChild(modalBtn);
   $("body").prepend(filterModal);
   displayRules();
 
