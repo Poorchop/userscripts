@@ -3,7 +3,7 @@
 // @namespace   https://github.com/Poorchop/userscripts
 // @description Allows for filtering/hiding of posts
 // @include     https://www.reddit.com/*
-// @version     0.2.1
+// @version     0.2.2
 // @grant       GM_addStyle
 // @grant       GM_listValues
 // @grant       GM_setValue
@@ -20,8 +20,6 @@
 /* global GM_setValue */
 /* global GM_getValue */
 /* global GM_deleteValue */
-
-// TODO: add buttons for toggling applied CSS
 
 // Bootstrap CSS restyles the entire page so only pull in styles where necessary
 GM_addStyle(
@@ -429,8 +427,41 @@ function init() {
   megaCollection = GM_listValues();
 
   // hide filtered posts
-  if (megaCollection.length > 0) {
+  if (megaCollection.length > 0 && !document.getElementsByClassName("commentarea").length) {
     findFilteredPosts();
+
+    // create toggle buttons
+    let hiddenCSS = document.getElementById("hidden-css");
+    let hideToggleBtn = document.createElement("button");
+    hideToggleBtn.id = "hide-toggle-btn";
+    hideToggleBtn.innerHTML = "Show hidden posts";
+    document.getElementById("siteTable").appendChild(hideToggleBtn);
+
+    $(hideToggleBtn).click(function () {
+      if (document.getElementById("hidden-css")) {
+        hiddenCSS.parentElement.removeChild(hiddenCSS);
+        $(this).text("Hide filtered posts");
+      } else {
+        document.head.appendChild(hiddenCSS);
+        $(this).text("Show hidden posts");
+      }
+    });
+
+    let highlightedCSS = document.getElementById("highlighted-css");
+    let highlightToggleBtn = document.createElement("button");
+    highlightToggleBtn.id = "highlight-toggle-btn";
+    highlightToggleBtn.innerHTML = "Remove highlights";
+    document.getElementById("siteTable").appendChild(highlightToggleBtn);
+
+    $(highlightToggleBtn).click(function () {
+      if (document.getElementById("highlighted-css")) {
+        highlightedCSS.parentElement.removeChild(highlightedCSS);
+        $(this).text("Apply highlights");
+      } else {
+        document.head.appendChild(highlightedCSS);
+        $(this).text("Remove highlights");
+      }
+    });
   }
 
   // initial DOM setup
@@ -445,38 +476,6 @@ function init() {
   modalToggle.setAttribute("data-toggle", "modal");
   modalToggle.appendChild(document.createTextNode("Filter"));
   modalBtn.appendChild(modalToggle);
-
-  let hiddenCSS = document.getElementById("hidden-css");
-  let hideToggleBtn = document.createElement("button");
-  hideToggleBtn.id = "hide-toggle-btn";
-  hideToggleBtn.innerHTML = "Show hidden posts";
-  document.getElementById("siteTable").appendChild(hideToggleBtn);
-
-  $(hideToggleBtn).click(function () {
-    if (document.getElementById("hidden-css")) {
-      hiddenCSS.parentElement.removeChild(hiddenCSS);
-      $(this).text("Hide filtered posts");
-    } else {
-      document.head.appendChild(hiddenCSS);
-      $(this).text("Show hidden posts");
-    }
-  });
-
-  let highlightedCSS = document.getElementById("highlighted-css");
-  let highlightToggleBtn = document.createElement("button");
-  highlightToggleBtn.id = "highlight-toggle-btn";
-  highlightToggleBtn.innerHTML = "Remove highlights";
-  document.getElementById("siteTable").appendChild(highlightToggleBtn);
-
-  $(highlightToggleBtn).click(function () {
-    if (document.getElementById("highlighted-css")) {
-      highlightedCSS.parentElement.removeChild(highlightedCSS);
-      $(this).text("Apply highlights");
-    } else {
-      document.head.appendChild(highlightedCSS);
-      $(this).text("Remove highlights");
-    }
-  });
 
   // create the modal
   let filterModal = document.createElement("div");
