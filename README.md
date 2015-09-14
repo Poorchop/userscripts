@@ -7,7 +7,9 @@ Inspired by Reddit Filter plus - this script opens up a modal dialog that allows
 based on subreddit, title, URL, or user. Title rules use exact match and are thus case-sensitive. All changes, including
 rule deletions, are only saved after explicitly clicking the save button.
 
-![Preview](https://imgrush.com/nzE7scNscp1g.png)
+Buttons are also added to the bottom of the page for toggling the hiding and highlighting of filtered posts.
+
+![Preview](https://imgrush.com/-TY1yReJssBH.png)
 
 #### [reddit-remove-read-next.user.js](reddit-remove-read-next.user.js)
 Removes the annoying read next popup in the lower right corner that shows when you scroll down a post's comments
