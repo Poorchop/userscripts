@@ -3,7 +3,7 @@
 // @namespace   https://github.com/Poorchop/userscripts
 // @description Allows for filtering/hiding of posts
 // @include     https://www.reddit.com/*
-// @version     0.3
+// @version     0.3.1
 // @grant       GM_addStyle
 // @grant       GM_listValues
 // @grant       GM_setValue
@@ -365,9 +365,9 @@ function findFilteredPosts() {
             if (target && target === item.toLowerCase()) {
               let className = visibleLinks[i].getAttribute("data-fullname");
               className = ".id-" + className;
-              classList.push(className);
               if (hiddenIndeces.indexOf(i) === -1) {
                 hiddenIndeces.push(i);
+                classList.push(className);
               }
             }
           }
@@ -378,9 +378,9 @@ function findFilteredPosts() {
             if (target.indexOf(item) >= 0) {
               let className = visibleLinks[i].getAttribute("data-fullname");
               className = ".id-" + className;
-              classList.push(className);
               if (hiddenIndeces.indexOf(i) === -1) {
                 hiddenIndeces.push(i);
+                classList.push(className);
               }
             }
           }
@@ -391,9 +391,9 @@ function findFilteredPosts() {
             if (target.indexOf(item.toLowerCase()) >= 0) {
               let className = visibleLinks[i].getAttribute("data-fullname");
               className = ".id-" + className;
-              classList.push(className);
               if (hiddenIndeces.indexOf(i) === -1) {
                 hiddenIndeces.push(i);
+                classList.push(className);
               }
             }
           }
@@ -404,9 +404,9 @@ function findFilteredPosts() {
             if (target === item.toLowerCase()) {
               let className = visibleLinks[i].getAttribute("data-fullname");
               className = ".id-" + className;
-              classList.push(className);
               if (hiddenIndeces.indexOf(i) === -1) {
                 hiddenIndeces.push(i);
+                classList.push(className);
               }
             }
           }
@@ -417,6 +417,7 @@ function findFilteredPosts() {
     }
   }
 
+  // NOTE: keeping a list of remaining visible links might be unnecessary
   for (let index of hiddenIndeces) {
     visibleLinks.splice(visibleLinks[index], 1);
   }
