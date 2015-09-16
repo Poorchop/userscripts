@@ -3,7 +3,7 @@
 // @namespace   https://github.com/Poorchop/userscripts
 // @description Allows for filtering/hiding of posts
 // @include     https://www.reddit.com/*
-// @version     0.3.1
+// @version     0.3.2
 // @grant       GM_addStyle
 // @grant       GM_listValues
 // @grant       GM_setValue
@@ -254,33 +254,10 @@ function addRow(key, value) {
   let dropdown = document.createElement("select");
   let input = document.createElement("input");
   let deleteBtn = document.createElement("button");
-  let markup;
-
-  switch (value) {
-    case "title":
-      markup = "<option value='subreddit'>subreddit</option> \
-        <option value='title' selected>title</option> \
-        <option value='url'>URL</option> \
-        <option value='user'>user</option>";
-      break;
-    case "url":
-      markup = "<option value='subreddit'>subreddit</option> \
-        <option value='title'>title</option> \
-        <option value='url' selected>URL</option> \
-        <option value='user'>user</option>";
-      break;
-    case "user":
-      markup = "<option value='subreddit'>subreddit</option> \
-        <option value='title'>title</option> \
-        <option value='url'>URL</option> \
-        <option value='user' selected>user</option>";
-      break;
-    default:
-      markup = "<option value='subreddit' selected>subreddit</option> \
-        <option value='title'>title</option> \
-        <option value='url'>URL</option> \
-        <option value='user'>user</option>";
-  }
+  let markup = "<option value='subreddit'>subreddit</option> \
+    <option value='title'>title</option> \
+    <option value='url'>URL</option> \
+    <option value='user'>user</option>";
 
   input.value = key;
 
@@ -288,6 +265,20 @@ function addRow(key, value) {
 
   dropdown.style = "width: 98%";
   dropdown.innerHTML = markup;
+
+  switch (value) {
+    case "title":
+      dropdown.children[1].setAttribute("selected", "");
+      break;
+    case "url":
+      dropdown.children[2].setAttribute("selected", "");
+      break;
+    case "user":
+      dropdown.children[3].setAttribute("selected", "");
+      break;
+    default:
+      dropdown.children[0].setAttribute("selected", "");
+  }
 
   deleteBtn.className = "close delete-btn";
   deleteBtn.innerHTML = "&times;";
