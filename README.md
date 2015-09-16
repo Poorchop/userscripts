@@ -4,8 +4,9 @@
 
 #### [reddit-filter.user.js](reddit-filter.user.js)
 Inspired by Reddit Filter plus - this script opens up a modal dialog that allows you to create rules for hiding posts
-based on subreddit, title, URL, or user. Title rules use exact match and are thus case-sensitive. All changes, including
-rule deletions, are only saved after explicitly clicking the save button.
+based on subreddit, title, URL, or user. Title rules are case-sensitive and may match all or part of a string; a rule of
+"Cow Del" will match "SuperCow Deluxe" for example, but not "Supercow Deluxe". All changes, including rule deletions,
+are only saved after explicitly clicking the save button.
 
 Buttons are also added to the bottom of the page for toggling the hiding and highlighting of filtered posts.
 
