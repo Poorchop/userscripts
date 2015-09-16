@@ -488,8 +488,8 @@ function init() {
         <div class='modal-body'> \
           <p> \
             <strong>Usage:</strong><br> \
-            Filtering by title uses exact match. The remaining three categories are case-insensitive. Changes will be \
-            applied after refreshing the page or after navigating away. \
+            Title filters are case-sensitive and may match all or part of a string. Changes will be applied after \
+            refreshing the page or after navigating away. \
           </p> \
           <p class='text-warning'> \
             <small> \
