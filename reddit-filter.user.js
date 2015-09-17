@@ -3,7 +3,7 @@
 // @namespace   https://github.com/Poorchop/userscripts
 // @description Allows for filtering/hiding of posts
 // @include     https://www.reddit.com/*
-// @version     0.3.2
+// @version     0.3.3
 // @grant       GM_addStyle
 // @grant       GM_listValues
 // @grant       GM_setValue
@@ -420,8 +420,12 @@ function init() {
   // get all existing rules
   megaCollection = GM_listValues();
 
-  // hide filtered posts
-  if (megaCollection.length > 0 && !document.getElementsByClassName("commentarea").length) {
+  // hide filtered posts; don't apply to pages with these classes present, but still allow modal dialog to be accessible
+  let commentarea = document.getElementsByClassName("commentarea").length;
+  let profilePage = document.getElementsByClassName("profile-page").length;
+  let messagesPage = document.getElementsByClassName("messages-page").length;
+
+  if (megaCollection.length > 0 && !commentarea && !profilePage && !messagesPage) {
     findFilteredPosts();
 
     // create toggle buttons
