@@ -10,7 +10,7 @@ are only saved after explicitly clicking the save button.
 
 Buttons are also added to the bottom of the page for toggling the hiding and highlighting of filtered posts.
 
-![Preview](https://sr.ht/E3CY.png)
+![Preview](screenshot-filter.png?raw=true)
 
 #### [reddit-remove-read-next.user.js](reddit-remove-read-next.user.js)
 Removes the annoying read next popup in the lower right corner that shows when you scroll down a post's comments
@@ -23,7 +23,7 @@ Custom subreddit CSS is always disabled by default. This script is primarily mea
 those who don't have a Reddit account and therefore don't have access to the option for disabling custom CSS.
 
 #### [youtube-better-frontpage.user.js](youtube-better-frontpage.user.js)
-No more garbage on the front page  
+No more garbage on the front page
 Thanks to [Farow](https://github.com/Farow) for the script
 
-![Preview](https://sr.ht/aG1d.png)
+![Preview](screenshot-youtube.png?raw=true)
