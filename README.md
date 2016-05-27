@@ -23,7 +23,7 @@ Custom subreddit CSS is always disabled by default. This script is primarily mea
 those who don't have a Reddit account and therefore don't have access to the option for disabling custom CSS.
 
 #### [youtube-better-frontpage.user.js](youtube-better-frontpage.user.js)
-No more garbage on the front page
+No more garbage on the front page  
 Thanks to [Farow](https://github.com/Farow) for the script
 
 ![Preview](screenshot-youtube.png?raw=true)
