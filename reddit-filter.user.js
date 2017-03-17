@@ -3,7 +3,7 @@
 // @namespace   https://github.com/Poorchop/userscripts
 // @description Allows for filtering/hiding of posts
 // @include     https://www.reddit.com/*
-// @version     0.3.3
+// @version     0.4.0
 // @grant       GM_addStyle
 // @grant       GM_listValues
 // @grant       GM_setValue
@@ -347,7 +347,7 @@ function findFilteredPosts() {
           for (let i = 0, j = visibleLinks.length; i < j; i++) {
             let target;
             try {
-              target = visibleLinks[i].querySelector(".subreddit").innerHTML.substring(3).toLowerCase();
+              target = visibleLinks[i].querySelector(".subreddit").innerHTML.substring(2).toLowerCase();
             }
             catch (e) {
               // user is currently on a subreddit page
