@@ -2,8 +2,8 @@
 // @name        YouTube Remove Annotations
 // @namespace   https://github.com/Poorchop/userscripts
 // @description Automatically toggles off YouTube annotations
-// @include     *youtube.com/watch*
-// @version     0.1
+// @include     http*://www.youtube.com/*
+// @version     0.1.1
 // @grant       none
 // ==/UserScript==
 
