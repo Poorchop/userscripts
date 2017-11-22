@@ -30,4 +30,4 @@ Thanks to [Farow](https://github.com/Farow) for the script
 
 #### [youtube-remove-annotations.user.js](youtube-remove-annotations.user.js)
 Automatically toggles off the most annoying feature that has ever been added to YouTube. Designed to work with the 2017
-Material Design Layout.
+Material Design layout.
