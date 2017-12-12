@@ -3,7 +3,7 @@
 // @namespace   https://github.com/Poorchop/userscripts
 // @description Allows for filtering/hiding of posts
 // @include     https://www.reddit.com/*
-// @version     0.4.0
+// @version     0.4.1
 // @grant       GM_addStyle
 // @grant       GM_listValues
 // @grant       GM_setValue
@@ -378,7 +378,12 @@ function findFilteredPosts() {
           break;
         case "url":
           for (let i = 0, j = visibleLinks.length; i < j; i++) {
-            let target = visibleLinks[i].querySelector(".domain").childNodes[1].innerHTML.toLowerCase();
+            let target;
+            // FIXME: actually find the "A" node instead of guessing in case of multiple emoji
+            if (visibleLinks[i].querySelector(".domain").childNodes[1].nodeName !== "A") {
+              target = visibleLinks[i].querySelector(".domain").childNodes[2].innerHTML.toLowerCase();
+            } else {
+              target = visibleLinks[i].querySelector(".domain").childNodes[1].innerHTML.toLowerCase();            }
             if (target.indexOf(item.toLowerCase()) >= 0) {
               let className = visibleLinks[i].getAttribute("data-fullname");
               className = ".id-" + className;
