@@ -4,12 +4,12 @@
 // @namespace   https://github.com/Poorchop/userscripts
 // @description Makes the author's replies more visible in the comments
 // @include     https://news.ycombinator.com/item?id=*
-// @version     0.1.0
+// @version     0.1.1
 // @grant       GM_addStyle
 // ==/UserScript==
 
 GM_addStyle(
-  '.thread-author { \
+  '.original-poster { \
     background-color: #ff6600; \
     border-radius: 4px; \
     color: #222 !important; \
@@ -18,8 +18,8 @@ GM_addStyle(
 );
 
 function highlightComments(authorComments) {
-  for (comment of authorComments) {
-    comment.className = 'thread-author';
+  for (let comment of authorComments) {
+    comment.className = 'original-poster';
   }
 }
 
