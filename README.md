@@ -2,6 +2,11 @@
 
 ***
 
+#### [hn-author-highlighter.user.js](hn-author-highlighter.user.js)
+This is inspired by [Hacker News Author Hilight](https://greasyfork.org/en/scripts/2961-hacker-news-author-hilight) by
+Jared Miller, but that script breaks the comment collapse buttons and uses jQuery. This one doesn't break anything
+(hopefully) and doesn't pull in any additional dependencies.
+
 #### [reddit-filter.user.js](reddit-filter.user.js)
 Inspired by Reddit Filter plus - this script opens up a modal dialog that allows you to create rules for hiding posts
 based on subreddit, title, URL, or user. Title rules are case-sensitive and may match all or part of a string; a rule of
